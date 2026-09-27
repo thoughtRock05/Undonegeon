@@ -3,13 +3,22 @@ class_name PlayerDash
 
 var actor: Player = _actor as Player
 
-func enter_state(_msg := {}) -> void:
+func enter_state(msg := {}) -> void:
 	var input_x: float = Input.get_axis("left", "right")
-	if input_x != 0:
+	
+	if msg.has("wall_normal"):
+		var wall_normal = msg.wall_normal
+		actor.dash_dir = Vector2(wall_normal.x, 0).normalized()
+	elif input_x != 0:
 		actor.dash_dir = Vector2(input_x, 0).normalized()
 	else:
 		var dash_x = -1 if actor.player_sprite.flip_h else 1
 		actor.dash_dir = Vector2(dash_x, 0)
+	
+	if actor.dash_dir.x < 0:
+		actor.face_left()
+	elif actor.dash_dir.x > 0:
+		actor.face_right()
 	
 	if actor.is_on_floor():
 		actor.current_dash = actor.DashType.GROUND
@@ -37,8 +46,8 @@ func physics_update(delta: float) -> void:
 	if Input.is_action_just_pressed("attack") and actor.has_sword:
 		actor.dash_timer.stop()
 		if actor.current_dash == actor.DashType.GROUND:
-				actor.can_dash = true
-				actor.current_dash = actor.DashType.AIR
+			actor.can_dash = true
+			actor.current_dash = actor.DashType.AIR
 		actor.velocity = actor.dash_dir * actor.DASH_SPEED * 0.85
 		state_machine.change_state("PlayerAttack")
 		return

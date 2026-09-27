@@ -4,19 +4,17 @@ class_name PlayerJump
 var actor: Player = _actor as Player
 
 func enter_state(msg := {}) -> void:
-	var dir = Input.get_axis("left", "right")
-	
 	if msg.has("wall_normal"):
 		var wall_normal = msg.wall_normal
 		actor.velocity.y = actor.WALL_JUMP_VELOCITY
-		
-		if dir != 0 and sign(dir) == sign(wall_normal.x):
-			actor.velocity.x = sign(dir) * actor.WALL_JUMP_PUSH
-		else:
-			actor.velocity.x = wall_normal.x * actor.WALL_JUMP_PUSH
-			
+		actor.velocity.x = wall_normal.x * actor.WALL_JUMP_PUSH
 		actor.jump_count = 1
 		actor.wall_jump_timer.start()
+		
+		if actor.velocity.x < 0:
+			actor.face_left()
+		else:
+			actor.face_right()
 	else:
 		actor.velocity.y = actor.JUMP_VELOCITY
 		actor.jump_count += 1
@@ -26,19 +24,24 @@ func enter_state(msg := {}) -> void:
 	actor.player_sprite.play("jump")
 
 func physics_update(delta: float) -> void:
-	var dir = Input.get_axis("left", "right")
 	actor.add_gravity(delta)
 	
-	if abs(actor.velocity.x) > actor.SPEED:
-		if dir == 0:
-			actor.velocity.x = move_toward(actor.velocity.x, 0, actor.DASH_DECEL * delta)
-		else:
-			actor.velocity.x = move_toward(actor.velocity.x, dir * actor.SPEED, actor.DASH_DECEL * delta)
+	if not actor.wall_jump_timer.is_stopped():
+		pass
 	else:
-		if dir != 0:
-			actor.velocity.x = move_toward(actor.velocity.x, dir * actor.SPEED, actor.SPEED * 8.0 * delta)
+		var dir = Input.get_axis("left", "right")
+		if abs(actor.velocity.x) > actor.SPEED:
+			if dir == 0:
+				actor.velocity.x = move_toward(actor.velocity.x, 0, actor.DASH_DECEL * delta)
+			else:
+				actor.velocity.x = move_toward(actor.velocity.x, dir * actor.SPEED, actor.DASH_DECEL * delta)
 		else:
-			actor.velocity.x = move_toward(actor.velocity.x, 0, actor.WALK_DECEL * delta)
+			if dir != 0:
+				actor.velocity.x = move_toward(actor.velocity.x, dir * actor.SPEED, actor.SPEED * 8.0 * delta)
+			else:
+				actor.velocity.x = move_toward(actor.velocity.x, 0, actor.WALK_DECEL * delta)
+	
+	var dir_check = Input.get_axis("left", "right")
 	
 	if Input.is_action_just_pressed("dash") and actor.has_dash and actor.can_dash:
 		state_machine.change_state("PlayerDash")
@@ -51,7 +54,7 @@ func physics_update(delta: float) -> void:
 	elif actor.velocity.y >= 0:
 		state_machine.change_state("PlayerFall")
 	elif actor.is_on_floor():
-		if dir == 0.0:
+		if dir_check == 0.0:
 			state_machine.change_state("PlayerIdle")
 		else:
 			state_machine.change_state("PlayerWalk")

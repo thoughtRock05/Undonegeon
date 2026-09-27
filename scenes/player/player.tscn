@@ -344,7 +344,6 @@ sfx_sword_swing = NodePath("SFX/SfxSwordSwing")
 state_machine = NodePath("StateMachine")
 
 [node name="PlayerCollider" type="CollisionShape2D" parent="." unique_id=1984020862]
-visible = false
 position = Vector2(1, 2)
 shape = SubResource("RectangleShape2D_qhqgy")
 
@@ -418,7 +417,7 @@ one_shot = true
 one_shot = true
 
 [node name="WallJumpTimer" type="Timer" parent="Timers" unique_id=506511039]
-wait_time = 0.25
+wait_time = 0.1
 one_shot = true
 
 [node name="AttackTimer" type="Timer" parent="Timers" unique_id=1978799325]

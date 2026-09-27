@@ -9,8 +9,8 @@ signal set_health(health: int)
 @export var SPEED = 375.0
 @export var WALK_DECEL = 1200.0
 @export var JUMP_VELOCITY = -445.0
-@export var WALL_JUMP_VELOCITY = -380.0
-@export var WALL_JUMP_PUSH = 450.0
+@export var WALL_JUMP_VELOCITY = -450.0
+@export var WALL_JUMP_PUSH = 350.0
 @export var WALL_SLIDE_SPEED = 90.0
 @export var DASH_SPEED = 650.0
 @export var DASH_DURATION = 0.35
@@ -27,6 +27,7 @@ var has_wall_jump: bool
 var has_sword: bool
 var has_shield: bool
 var has_dash: bool
+var has_wall_cling: bool = true
 
 @export_group("Children")
 @export var player_sprite: AnimatedSprite2D
@@ -134,13 +135,13 @@ func update_facing(dir: float):
 	var current_state_name = state_machine.current_state.name
 	if current_state_name in ["PlayerDash", "PlayerAttack", "PlayerDead"]:
 		return
-	if dir != 0:
-		if current_state_name == "jump" and velocity.x != 0:
-			if velocity.x < 0:
-				face_left()
-			elif velocity.x > 0:
-				face_right()
-		elif dir < 0:
+	if current_state_name == "PlayerJump" and velocity.x != 0:
+		if velocity.x < 0:
+			face_left()
+		elif velocity.x > 0:
+			face_right()
+	elif dir != 0:
+		if dir < 0:
 			face_left()
 		elif dir > 0:
 			face_right()

@@ -28,7 +28,7 @@ func physics_update(delta: float) -> void:
 	elif Input.is_action_just_pressed("jump") and (not actor.coyote_timer.is_stopped() or actor.jump_count < 1 + int(actor.has_double_jump)):
 		actor.coyote_timer.stop()
 		state_machine.change_state("PlayerJump")
-	elif actor.has_wall_jump and not actor.is_on_floor() and actor.is_on_wall() and actor.velocity.y > 0:
+	elif actor.has_wall_jump and not actor.is_on_floor() and actor.is_on_wall():
 		state_machine.change_state("PlayerWallSlide")
 	elif actor.is_on_floor():
 		actor.jump_count = 0
