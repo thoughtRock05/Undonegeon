@@ -4,7 +4,6 @@ class_name PlayerWallSlide
 var actor: Player = _actor as Player
 
 func enter_state(_msg := {}) -> void:
-	actor.player_sprite.play("wall_cling")
 	actor.wall_slide_timer.stop()
 
 func exit_state() -> void:
@@ -21,11 +20,13 @@ func physics_update(delta: float) -> void:
 		actor.velocity.x = 0
 		if actor.sfx_player_wall_slide.is_playing():
 			actor.sfx_player_wall_slide.stop()
+		actor.player_sprite.play("wall_cling")
 	else:
 		actor.velocity.y = min(actor.velocity.y, actor.WALL_SLIDE_SPEED)
 		actor.add_gravity(delta)
 		if not actor.sfx_player_wall_slide.is_playing():
 			actor.sfx_player_wall_slide.play()
+		actor.player_sprite.play("wall_slide")
 	
 	if dir != 0 and sign(dir) == sign(wall_normal.x):
 		actor.velocity.x = wall_normal.x * actor.WALL_DETATCH
@@ -38,7 +39,7 @@ func physics_update(delta: float) -> void:
 		state_machine.change_state("PlayerIdle")
 	elif not actor.is_on_wall():
 		if actor.wall_slide_timer.is_stopped():
-			actor.wall_slide_timer.start(0.08)
+			actor.wall_slide_timer.start()
 			await actor.wall_slide_timer.timeout
 			if not actor.is_on_wall():
 				state_machine.change_state("PlayerFall")

@@ -151,6 +151,10 @@ region = Rect2(670, 87, 134, 87)
 atlas = ExtResource("2_j4nxn")
 region = Rect2(804, 87, 134, 87)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4nxn"]
+atlas = ExtResource("2_j4nxn")
+region = Rect2(0, 174, 134, 87)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_74r1k"]
 atlas = ExtResource("2_j4nxn")
 region = Rect2(938, 87, 134, 87)
@@ -293,13 +297,21 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_j4nxn")
+}],
+"loop": 0,
+"name": &"wall_cling",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_74r1k")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8svfe")
 }],
 "loop": 1,
-"name": &"wall_cling",
+"name": &"wall_slide",
 "speed": 7.0
 }]
 
@@ -351,8 +363,7 @@ shape = SubResource("RectangleShape2D_qhqgy")
 process_mode = 1
 position = Vector2(21, -11)
 sprite_frames = SubResource("SpriteFrames_q2dwa")
-animation = &"idle"
-frame = 1
+animation = &"wall_cling"
 
 [node name="PlayerCamera" type="Camera2D" parent="." unique_id=750898772]
 zoom = Vector2(0.625, 0.625)

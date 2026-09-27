@@ -24,12 +24,12 @@ func enter_state(msg := {}) -> void:
 	actor.player_sprite.play("jump")
 
 func physics_update(delta: float) -> void:
+	var dir = Input.get_axis("left", "right")
 	actor.add_gravity(delta)
 	
 	if not actor.wall_jump_timer.is_stopped():
 		pass
 	else:
-		var dir = Input.get_axis("left", "right")
 		if abs(actor.velocity.x) > actor.SPEED:
 			if dir == 0:
 				actor.velocity.x = move_toward(actor.velocity.x, 0, actor.DASH_DECEL * delta)
@@ -40,8 +40,6 @@ func physics_update(delta: float) -> void:
 				actor.velocity.x = move_toward(actor.velocity.x, dir * actor.SPEED, actor.SPEED * 8.0 * delta)
 			else:
 				actor.velocity.x = move_toward(actor.velocity.x, 0, actor.WALK_DECEL * delta)
-	
-	var dir_check = Input.get_axis("left", "right")
 	
 	if Input.is_action_just_pressed("dash") and actor.has_dash and actor.can_dash:
 		state_machine.change_state("PlayerDash")
@@ -54,7 +52,7 @@ func physics_update(delta: float) -> void:
 	elif actor.velocity.y >= 0:
 		state_machine.change_state("PlayerFall")
 	elif actor.is_on_floor():
-		if dir_check == 0.0:
+		if dir == 0.0:
 			state_machine.change_state("PlayerIdle")
 		else:
 			state_machine.change_state("PlayerWalk")
