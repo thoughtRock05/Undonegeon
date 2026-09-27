@@ -71,7 +71,7 @@ func physics_update(delta: float) -> void:
 				state_machine.change_state("PlayerIdle")
 			else:
 				state_machine.change_state("PlayerWalk")
-		elif actor.is_on_wall():
+		elif actor.wall_slide_ray_cast.is_colliding():
 			state_machine.change_state("PlayerFall")
 		else:
 			state_machine.change_state("PlayerFall")

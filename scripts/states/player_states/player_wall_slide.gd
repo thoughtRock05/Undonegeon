@@ -22,8 +22,7 @@ func physics_update(delta: float) -> void:
 			actor.sfx_player_wall_slide.stop()
 		actor.player_sprite.play("wall_cling")
 	else:
-		actor.velocity.y = min(actor.velocity.y, actor.WALL_SLIDE_SPEED)
-		actor.add_gravity(delta)
+		actor.velocity.y = move_toward(actor.velocity.y, actor.WALL_SLIDE_SPEED, actor.WALL_SLIDE_ACCEL * delta)
 		if not actor.sfx_player_wall_slide.is_playing():
 			actor.sfx_player_wall_slide.play()
 		actor.player_sprite.play("wall_slide")
@@ -37,9 +36,9 @@ func physics_update(delta: float) -> void:
 		state_machine.change_state("PlayerDash", {"wall_normal": wall_normal})
 	elif actor.is_on_floor():
 		state_machine.change_state("PlayerIdle")
-	elif not actor.is_on_wall():
+	elif not actor.wall_slide_ray_cast.is_colliding():
 		if actor.wall_slide_timer.is_stopped():
 			actor.wall_slide_timer.start()
 			await actor.wall_slide_timer.timeout
-			if not actor.is_on_wall():
+			if not actor.wall_slide_ray_cast.is_colliding():
 				state_machine.change_state("PlayerFall")

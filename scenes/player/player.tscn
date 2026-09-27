@@ -327,7 +327,7 @@ size = Vector2(82, 92)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q2dwa"]
 size = Vector2(84, 94)
 
-[node name="Player" type="CharacterBody2D" unique_id=933572393 node_paths=PackedStringArray("player_sprite", "player_camera", "player_hitbox", "sword_hit_box", "shield_sprite", "shield_collision", "shield_hitbox", "coyote_timer", "buffer_timer", "dash_timer", "wall_jump_timer", "attack_timer", "i_frame_timer", "wall_slide_timer", "sfx_player_dash", "sfx_player_death", "sfx_player_hurt", "sfx_player_jump", "sfx_player_walk", "sfx_player_wall_slide", "sfx_heart_pickup", "sfx_sword_swing", "state_machine")]
+[node name="Player" type="CharacterBody2D" unique_id=933572393 node_paths=PackedStringArray("player_sprite", "player_camera", "player_hitbox", "sword_hit_box", "shield_sprite", "shield_collision", "shield_hitbox", "wall_slide_ray_cast", "coyote_timer", "buffer_timer", "dash_timer", "wall_jump_timer", "attack_timer", "i_frame_timer", "wall_slide_timer", "sfx_player_dash", "sfx_player_death", "sfx_player_hurt", "sfx_player_jump", "sfx_player_walk", "sfx_player_wall_slide", "sfx_heart_pickup", "sfx_sword_swing", "state_machine")]
 process_mode = 1
 collision_layer = 2
 script = ExtResource("1_6cv16")
@@ -338,6 +338,7 @@ sword_hit_box = NodePath("SwordHitBox")
 shield_sprite = NodePath("Shield/ShieldSprite")
 shield_collision = NodePath("Shield/ShieldCollision")
 shield_hitbox = NodePath("Shield/ShieldHitbox")
+wall_slide_ray_cast = NodePath("Raycasts/WallSlideRayCast")
 coyote_timer = NodePath("Timers/CoyoteTimer")
 buffer_timer = NodePath("Timers/BufferTimer")
 dash_timer = NodePath("Timers/DashTimer")
@@ -372,6 +373,12 @@ limit_smoothed = true
 position_smoothing_enabled = true
 position_smoothing_speed = 12.94
 script = ExtResource("3_28m0y")
+
+[node name="Raycasts" type="Node2D" parent="." unique_id=1423467894]
+
+[node name="WallSlideRayCast" type="RayCast2D" parent="Raycasts" unique_id=1636650050]
+position = Vector2(0, -14)
+target_position = Vector2(17, 0)
 
 [node name="PlayerHitbox" type="Area2D" parent="." unique_id=1544907735]
 visible = false

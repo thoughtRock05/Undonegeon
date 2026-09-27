@@ -11,7 +11,8 @@ signal set_health(health: int)
 @export var JUMP_VELOCITY = -445.0
 @export var WALL_JUMP_VELOCITY = -450.0
 @export var WALL_JUMP_PUSH = 350.0
-@export var WALL_SLIDE_SPEED = 90.0
+@export var WALL_SLIDE_SPEED = 180.0
+@export var WALL_SLIDE_ACCEL = 300.0
 @export var DASH_SPEED = 650.0
 @export var DASH_DURATION = 0.35
 @export var DASH_DECEL = 2500.0
@@ -37,6 +38,7 @@ var has_wall_cling: bool = true
 @export var shield_sprite: Sprite2D
 @export var shield_collision: CollisionShape2D
 @export var shield_hitbox: Area2D
+@export var wall_slide_ray_cast: RayCast2D
 
 @export_group("Timers")
 @export var coyote_timer: Timer
@@ -150,11 +152,13 @@ func face_left() -> void:
 	player_sprite.position.x = -21.0
 	player_sprite.flip_h = true
 	sword_hit_box.position.x = -37.0
+	wall_slide_ray_cast.target_position = Vector2(-17.0,0)
 
 func face_right() -> void:
 	player_sprite.position.x = 21.0
 	player_sprite.flip_h = false
 	sword_hit_box.position.x = 37.0
+	wall_slide_ray_cast.target_position = Vector2(17.0,0)
 
 func update_shield():
 	var shielding = (state_machine.current_state.name == "PlayerShield")

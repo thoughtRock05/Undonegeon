@@ -47,7 +47,7 @@ func physics_update(delta: float) -> void:
 		state_machine.change_state("PlayerAttack")
 	elif Input.is_action_just_pressed("jump") and actor.jump_count < (1 + int(actor.has_double_jump)):
 		state_machine.change_state("PlayerJump")
-	elif actor.has_wall_jump and not actor.is_on_floor() and actor.is_on_wall() and actor.velocity.y > 0:
+	elif actor.has_wall_jump and not actor.is_on_floor() and actor.wall_slide_ray_cast.is_colliding() :# and actor.velocity.y > 0:
 		state_machine.change_state("PlayerWallSlide")
 	elif actor.velocity.y >= 0:
 		state_machine.change_state("PlayerFall")
