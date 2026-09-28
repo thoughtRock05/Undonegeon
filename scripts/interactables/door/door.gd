@@ -27,5 +27,5 @@ func _on_area_entered(area: Area2D) -> void:
 		trigger_door.emit(next_room)
 
 func set_active(b: bool) -> void:
-		trigger_area.monitoring = b
-		trigger_area.monitorable = b
+	trigger_area.monitoring = b
+	trigger_area.monitorable = b

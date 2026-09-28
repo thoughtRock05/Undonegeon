@@ -170,9 +170,6 @@ func update_shield():
 
 
 func hit(area: Area2D):
-	if area is HeartBox:
-		health_pickup()
-		return
 	if area is AcidPit:
 		die()
 		return
@@ -211,8 +208,11 @@ func hit(area: Area2D):
 		if state_machine.current_state.name == "PlayerStun":
 			state_machine.change_state("PlayerIdle")
 
-func health_pickup():
+func health_pickup() -> void:
 	sfx_heart_pickup.play()
+	heal()
+
+func heal() -> void:
 	health += 1
 	if health > max_health:
 		health = max_health

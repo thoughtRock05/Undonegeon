@@ -74,13 +74,14 @@ func _process(_delta: float) -> void:
 		can_interact = true
 
 func _on_door_triggered(next_room: String) -> void:
-	door.is_open = true
-	Music.switch_player(room_num + 8)
-	can_interact = false
-	yield_prompt.visible = true
-	room = next_room
-	get_tree().paused = true
-	yes_button.grab_focus()
+	if can_interact:
+		door.is_open = true
+		Music.switch_player(room_num + 8)
+		can_interact = false
+		yield_prompt.visible = true
+		room = next_room
+		get_tree().paused = true
+		yes_button.grab_focus()
 
 func _on_yes_pressed() -> void:
 	sfx_player_walk_echo.play()
@@ -100,7 +101,7 @@ func _on_yes_pressed() -> void:
 			SaveLoad._set_dictionary_value(SaveLoad.dash_key, false)
 		_:
 			pass # default case
-	
+	door.set_active(false)
 	get_tree().paused = false
 	yield_prompt.visible = false
 	SceneTransition.load_scene(room)
@@ -109,8 +110,8 @@ func _on_no_pressed() -> void:
 	door.is_open = false
 	Music.switch_player(room_num)
 	yield_prompt.visible = false
+	door.set_active(true)
 	get_tree().paused = false
-	
 	can_interact = true
 
 func _on_reset_pressed() -> void:
