@@ -1,7 +1,10 @@
 extends State
 class_name PlayerDash
 
-var actor: Player = _actor as Player
+var actor: Player:
+	get():
+		return _actor as Player
+
 
 func enter_state(msg := {}) -> void:
 	var input_x: float = Input.get_axis("left", "right")

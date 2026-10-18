@@ -1,7 +1,10 @@
 extends State
 class_name PlayerWalk
 
-var actor: Player = _actor as Player
+var actor: Player:
+	get():
+		return _actor as Player
+
 var step_distance_accumulator: float = 0.0
 const STEP_DISTANCE: float = 65.0
 var was_on_floor: bool = true

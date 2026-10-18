@@ -1,7 +1,10 @@
 extends State
 class_name PlayerAttack
 
-var actor: Player = _actor as Player
+var actor: Player:
+	get():
+		return _actor as Player
+
 
 func enter_state(_msg := {}) -> void:
 	actor.sfx_sword_swing.play()

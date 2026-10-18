@@ -9,7 +9,7 @@ var states: Dictionary = {}
 func init(actor: CharacterBody2D) -> void:
 	for child in get_children():
 		if child is State:
-			child.actor = actor
+			child._actor = actor
 			child.state_machine = self
 			states[child.name] = child
 	

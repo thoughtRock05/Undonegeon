@@ -1,7 +1,10 @@
 extends State
 class_name PlayerJump
 
-var actor: Player = _actor as Player
+var actor: Player:
+	get():
+		return _actor as Player
+
 
 func enter_state(msg := {}) -> void:
 	if msg.has("wall_normal"):

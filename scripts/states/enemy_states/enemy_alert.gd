@@ -1,7 +1,10 @@
 extends State
 class_name EnemyAlert
 
-var actor: Enemy = _actor as Enemy
+var actor: Enemy:
+	get():
+		return _actor as Enemy
+
 
 func enter_state(_msg := {}) -> void:
 	if actor.sfx_aggro:

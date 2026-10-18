@@ -1,7 +1,10 @@
 extends State
 class_name PlayerIdle
 
-var actor: Player = _actor as Player
+var actor: Player:
+	get():
+		return _actor as Player
+
 var was_on_floor: bool = true
 
 func enter_state(_msg := {}) -> void:

@@ -1,7 +1,9 @@
 extends State
 class_name EnemyIdle
 
-var actor: Enemy = _actor as Enemy
+var actor: Enemy:
+	get():
+		return _actor as Enemy
 
 func enter_state(_msg := {}) -> void:
 	actor.velocity.x = 0.0

@@ -1,7 +1,10 @@
 extends State
 class_name EnemyFall
 
-var actor: Enemy = _actor as Enemy
+var actor: Enemy:
+	get():
+		return _actor as Enemy
+
 
 func enter_state(_msg := {}) -> void:
 	if actor.sprite.sprite_frames.has_animation("fall"):
